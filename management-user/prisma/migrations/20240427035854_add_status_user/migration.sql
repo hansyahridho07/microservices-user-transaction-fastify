@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "users" ADD COLUMN     "status" "STATUS_DEFAULT" NOT NULL DEFAULT 'INACTIVE';

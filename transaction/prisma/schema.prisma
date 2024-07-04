@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Wallet {
+  id Int @id @default(autoincrement())
+  user_id String @unique
+  amount Float @default(0)
+  transaction Transaction[]
+
+  @@map("wallets")
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  reff_id String
+  user_id String
+  action ACTION_TRANSACTION_ENUM
+  type TYPE_TRANSACTION
+  detail_account Json?
+  detail_destination Json?
+  status STATUS_TRANSACTION @default(PENDING)
+  amount Int @default(0)
+  admin Int @default(0)
+  total Int @default(0)
+  currency String @default("USD")
+  wallet_id Int
+  wallet Wallet @relation(fields: [wallet_id], references: [id])
+  request_midtrans Json?
+  response_midtrans Json?
+  callback_midtrans Json?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([reff_id, user_id])
+  @@map("transactions")
+}
+
+enum ACTION_TRANSACTION_ENUM {
+  SEND
+  WITHDRAW
+  TOPUP
+}
+
+enum TYPE_TRANSACTION {
+  DEBIT // decrease amount
+  CREDIT // increase amount
+}
+
+enum STATUS_TRANSACTION {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUND
+}

@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id
+  email String @unique
+  name String @db.VarChar(200)
+  user_account User_Account[]
+  status STATUS_DEFAULT @default(INACTIVE)
+  @@map("users")
+}
+
+model Payment_Method {
+  id Int @id @default(autoincrement())
+  name String
+  type String
+  provider String
+  status  STATUS_DEFAULT @default(ACTIVE)
+  admin_type ADMIN_TYPE @default(FIX)
+  admin Float
+  user_account User_Account[]
+
+  @@map("payment_methods")
+}
+
+model User_Account {
+  id Int @id @default(autoincrement())
+  user_id String
+  user User @relation(fields: [user_id], references: [id])
+  payment_id Int
+  payment Payment_Method @relation(fields: [payment_id], references: [id])
+  name String
+  account_info Json
+  status STATUS_DEFAULT @default(INACTIVE)
+
+  @@map("user_accounts")
+}
+
+enum STATUS_DEFAULT {
+  ACTIVE
+  INACTIVE
+}
+
+enum ADMIN_TYPE {
+  FIX
+  PERCENTAGE
+}
