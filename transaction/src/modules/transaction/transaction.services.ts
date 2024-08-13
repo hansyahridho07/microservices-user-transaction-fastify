@@ -356,7 +356,7 @@ class TransactionServices {
   
   public async callbackMidtrans(input: any) {
     const successStatus = ['success','settlement','capture']
-    const failedStatus = ['failed','expire','expired','refund']
+    const failedStatus = ['failed','expire','expired','refund','cancel']
     
     const reff_id = input.order_id
 
@@ -393,6 +393,8 @@ class TransactionServices {
     } else {
       return false
     }
+
+    updateTransaction.data.callback_midtrans = JSON.stringify(input)
 
     if(checkTransaction.action === "TOPUP"){
       const argsWhereWallet: Prisma.WalletFindUniqueArgs = {
