@@ -55,21 +55,6 @@ async function main() {
   })
   
   server.register(import("@fastify/swagger"), {
-    // openapi: {
-    //   openapi: '3.0.0',
-    //   info: {
-    //     title: 'API DOCUMENTATION USER MANAGEMENT',
-    //     description: 'This API service for every path provide in service user management',
-    //     version: '1.0.0',
-    //   },
-    //   servers: [
-    //     {
-    //       url: 'http://ec2-13-211-164-22.ap-southeast-2.compute.amazonaws.com:4000',
-    //       description: 'Development server'
-    //     }
-    //   ],
-      
-    // }
     swagger: {
       info: {
         title: 'API DOCUMENTATION USER MANAGEMENT',
@@ -80,21 +65,12 @@ async function main() {
         url: 'https://swagger.io',
         description: 'Find more info here'
       },
-      // host: 'localhost:4000',
       host: 'ec2-13-211-164-22.ap-southeast-2.compute.amazonaws.com:4000',
       schemes: [
         'http',
       ],
       consumes: ['application/json'],
       produces: ['application/json'],
-      // securityDefinitions: {
-      //   ApiToken: {
-      //     description: 'Authorization header token, sample: "Bearer #TOKEN#"',
-      //     type: 'apiKey',
-      //     name: 'Authorization',
-      //     in: 'header'
-      //   },
-      // }
     }
   })
   server.register(import("@fastify/swagger-ui"), {
@@ -103,18 +79,6 @@ async function main() {
   server.register(userRoutes, { prefix: '/api/v1/user' })
   server.register(accountRoutes, { prefix: '/api/v1/account' })
   server.register(transactionRoutes, { prefix: '/api/v1/transaction' })
-  // server.setErrorHandler(errorHandler)
-
-  // try {
-  //   await server.listen({
-  //     port: +process.env.PORT! ?? 3000,
-  //     host: '0.0.0.0',
-  //   })
-  //   console.log(`Server run in port: ${process.env.PORT}`)
-  // } catch (error) {
-  //   console.error(error)
-  //   process.exit(1)
-  // }
 }
 
 main()

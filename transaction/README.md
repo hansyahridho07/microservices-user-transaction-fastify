@@ -92,7 +92,7 @@ You can use this env, because this env is same as env in AWS EC2 and credential 
 > * After run script `npm install`, run script `npm run  generate-model-prisma` for generate model from Prisma
 > * Run script `npm i -g pm2` for running service in background
 > * Run script `npm run build` for convert typescript file to javascript file in folder `dist`
-> * Run script `pm2 start ./dist/app.js --name=transaction` in route folder transaction
+> * Run script `pm2 start ./dist/server.js --name=transaction` in route folder transaction
 > * Service is running at background, for check run script `pm2 ls`
 
 > [!CAUTION]
